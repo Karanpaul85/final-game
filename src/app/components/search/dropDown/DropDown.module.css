@@ -1,0 +1,44 @@
+
+.dropDownList{
+    position: absolute;
+    top: 100%;
+    background: var(--white);
+    width: 100%;
+    z-index: 10;
+    box-shadow: var(--shadow);
+    border-radius: 8px;
+    list-style: none;
+    height: 0;
+    overflow: auto;
+    max-height: 340px;
+    transition: all ease-in-out 0.25s;
+    /* Custom Scrollbar */
+    scrollbar-width: thin; /* For Firefox */
+    scrollbar-color: var(--gray) transparent; /* Thumb and Track */
+    
+}
+/* For WebKit (Chrome, Edge, Safari) */
+.dropDownList::-webkit-scrollbar {
+    width: 6px; /* Adjust scrollbar width */
+}
+
+.dropDownList::-webkit-scrollbar-thumb {
+    background: var(--gray); /* Scrollbar color */
+    border-radius: 4px;
+}
+
+.dropDownList::-webkit-scrollbar-track {
+    background: transparent; /* Track color */
+}
+.show{
+    height: 245px;
+}
+.dropDownList li{
+    padding: 14px;
+    border-bottom: 1px solid var(--lightGrey);
+    cursor: pointer;
+    transition: all ease-in-out 0.2s;
+}
+.dropDownList li:hover{
+    background: var(--lightGrey);
+}

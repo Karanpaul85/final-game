@@ -1,9 +1,17 @@
 "use client";
 import SearchIcon from "@mui/icons-material/Search";
 import style from "./Search.module.css";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import DropDown from "./dropDown";
+import { months } from "@/app/utils/constants";
+import { getLastFiveYears } from "@/app/utils/common";
 
 const Search = () => {
+  const formRef = useRef();
+  const [selectedValues, setSelectedValues] = useState({
+    year: "",
+    month: "",
+  });
   const [isShowDropDown, setIsShowDropDown] = useState({
     year: false,
     month: false,
@@ -23,40 +31,56 @@ const Search = () => {
     }));
   };
 
+  const selectYear = (year) => {
+    setSelectedValues((prevState) => ({ ...prevState, year: year }));
+    setIsShowDropDown({ year: false, month: false });
+  };
+
+  const selectMonth = (month) => {
+    setSelectedValues((prevState) => ({ ...prevState, month: month }));
+    setIsShowDropDown({ year: false, month: false });
+  };
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+    console.log(selectedValues);
+  };
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (formRef.current && !formRef.current.contains(event.target)) {
+        setIsShowDropDown({ year: false, month: false });
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   return (
     <div className={style.searchSection}>
-      <form>
+      <form ref={formRef} onSubmit={onSubmit}>
         <div className={style.dropDownSec}>
           <button type="button" id="year" onClick={showYears}>
-            Year
+            {selectedValues.year !== "" ? selectedValues.year : "Year"}
           </button>
-          <ul className={isShowDropDown.year ? style.show : ""}>
-            <li>2019</li>
-            <li>2020</li>
-            <li>2021</li>
-            <li>2022</li>
-            <li>2023</li>
-            <li>2024</li>
-            <li>2025</li>
-          </ul>
+          <DropDown
+            isShow={isShowDropDown.year}
+            itemList={getLastFiveYears()}
+            fun={selectYear}
+          />
         </div>
         <div className={style.dropDownSec}>
           <button type="button" id="month" onClick={showMonths}>
-            Month
+            {selectedValues.month !== "" ? selectedValues.month : "Month"}
           </button>
-          <ul className={isShowDropDown.month ? style.show : ""}>
-            <li>January</li>
-            <li>February</li>
-            <li>March</li>
-            <li>April</li>
-            <li>May</li>
-            <li>June</li>
-            <li>August</li>
-            <li>September</li>
-            <li>October</li>
-            <li>November</li>
-            <li>December</li>
-          </ul>
+          <DropDown
+            isShow={isShowDropDown.month}
+            itemList={months}
+            fun={selectMonth}
+          />
         </div>
         <button id="search" type="submit">
           <SearchIcon />
