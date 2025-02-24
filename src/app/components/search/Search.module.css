@@ -1,0 +1,51 @@
+.searchSection{
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+}
+
+.searchSection form{
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    padding: 0;
+}
+.searchSection form button{
+    background: none;
+    border: 0;
+    min-width: 200px;
+    padding: 16px;
+    font-size: 18px;
+    text-align: left;
+    border-right: 1px solid #ccc;
+    cursor: pointer;
+    position: relative;
+}
+.dropDownSec{
+    position: relative;
+    width: 100%;
+}
+.dropDownSec ul{
+    position: absolute;
+    top: 100%;
+    background: var(--white);
+    width: 100%;
+    z-index: 10;
+    box-shadow: 0 2px 4px rgba(0, 0, 0,0.2);
+    border-radius: 8px;
+    list-style: none;
+    height: 0;
+    overflow: hidden;
+    max-height: 340px;
+    transition: all ease-in-out 0.25s;
+    
+}
+.dropDownSec ul.show{
+    height: 340px;
+}
+.dropDownSec ul li{
+    padding: 14px;
+    border-bottom: 1px solid #d5d5d5;
+}

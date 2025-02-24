@@ -1,0 +1,11 @@
+.footer{
+    width: 100%;
+    padding: 20px;
+    background: var(--maroon);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-height: 114px;
+    color: var(--white);
+    font-size: 14px;
+}
