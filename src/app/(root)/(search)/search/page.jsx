@@ -1,15 +1,14 @@
-import styles from "./page.module.css";
-import WinnerList from "../../components/winnerList";
 import SearchSection from "@/app/components/search";
+import style from "./Search.module.css";
 import ContentSection from "@/app/components/contentSection";
 
-export default function Home() {
+export default function Search({ params }) {
+  console.log(params, "params");
   return (
     <div className="wrapper">
       <main>
         <ContentSection />
-        <SearchSection />
-        <WinnerList />
+        <SearchSection customCss={style.marginBottom} />
         <ContentSection />
       </main>
     </div>

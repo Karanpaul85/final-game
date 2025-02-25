@@ -1,15 +1,15 @@
-import styles from "./page.module.css";
-import WinnerList from "../../components/winnerList";
 import SearchSection from "@/app/components/search";
 import ContentSection from "@/app/components/contentSection";
+import TableSection from "@/app/components/tableSection";
 
-export default function Home() {
+export default function Search({ params }) {
+  console.log(params, "params");
   return (
     <div className="wrapper">
       <main>
         <ContentSection />
         <SearchSection />
-        <WinnerList />
+        <TableSection />
         <ContentSection />
       </main>
     </div>

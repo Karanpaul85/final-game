@@ -1,0 +1,28 @@
+.tableSection{
+    width: 100%;
+    overflow: auto;
+}
+.customers {
+    font-family: Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+    margin: 30px 0;
+  }
+  
+  .customers td, .customers th {
+    border: 1px solid var(--lightGrey);
+    padding: 8px;
+  }
+  
+  .customers tr:nth-child(even){background-color: var(--lightBg);}
+  
+  .customers tr:hover {background-color: #ddd;}
+  
+  .customers th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: var(--lightMaroon);
+    color: var(--white);
+    min-width: 100px;
+  }

@@ -5,8 +5,10 @@ import { useEffect, useRef, useState } from "react";
 import DropDown from "./dropDown";
 import { months } from "@/app/utils/constants";
 import { getLastFiveYears } from "@/app/utils/common";
+import { useRouter } from "next/navigation";
 
-const Search = () => {
+const SearchSection = ({ customCss }) => {
+  const router = useRouter();
   const formRef = useRef();
   const [selectedValues, setSelectedValues] = useState({
     year: "",
@@ -43,7 +45,10 @@ const Search = () => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    console.log(selectedValues);
+    router.push(
+      `/search/${selectedValues.month.toLowerCase()}/${selectedValues.year}`
+    );
+    // console.log(selectedValues);
   };
 
   useEffect(() => {
@@ -60,7 +65,7 @@ const Search = () => {
   }, []);
 
   return (
-    <div className={style.searchSection}>
+    <div className={`${style.searchSection} ${customCss ? customCss : ""}`}>
       <form ref={formRef} onSubmit={onSubmit}>
         <div className={style.dropDownSec}>
           <button type="button" id="year" onClick={showYears}>
@@ -89,4 +94,4 @@ const Search = () => {
     </div>
   );
 };
-export default Search;
+export default SearchSection;

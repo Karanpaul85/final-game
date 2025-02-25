@@ -1,11 +1,18 @@
 import Image from "next/image";
 import style from "./Header.module.css";
 import Link from "next/link";
-const Header = () => {
+
+const Header = ({ isMobile }) => {
+  console.log(isMobile, "isMobile");
   return (
     <header className={style.header}>
       <Link href="/">
-        <Image src="/assets/logo.png" width={146} height={114} alt="logo" />
+        <Image
+          src="/assets/logo.png"
+          width={isMobile ? 92 : 146}
+          height={isMobile ? 72 : 114}
+          alt="logo"
+        />
       </Link>
     </header>
   );
