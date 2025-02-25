@@ -2,24 +2,23 @@
 import { useState } from "react";
 import style from "./Today.module.css";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { removeSpace } from "@/app/utils/common";
 
 const TodayDraw = () => {
-  const [areas, setAreas] = useState([
-    {
-      id: 1,
-      area: "Area1",
-      winner: "",
-      entries: "",
-      areaId: "area1",
-      isNew: false,
-    },
-  ]);
+  const [areas, setAreas] = useState([]);
 
   // Function to add a new area row
   const addArea = () => {
     setAreas([
       ...areas,
-      { id: areas.length + 1, area: "", winner: "", entries: "", isNew: true },
+      {
+        id: areas.length + 1,
+        area: "",
+        areaId: "",
+        winner: "",
+        entries: "",
+        isNew: true,
+      },
     ]);
   };
 
@@ -32,6 +31,14 @@ const TodayDraw = () => {
   const handleChange = (id, field, value) => {
     setAreas(
       areas.map((item) => (item.id === id ? { ...item, [field]: value } : item))
+    );
+  };
+
+  //convert Area value into areaId
+  const convertAreaId = (id, value) => {
+    const areaId = removeSpace(value);
+    setAreas(
+      areas.map((item) => (item.id === id ? { ...item, areaId: areaId } : item))
     );
   };
 
@@ -62,6 +69,7 @@ const TodayDraw = () => {
                   onChange={(e) =>
                     handleChange(item.id, "area", e.target.value)
                   }
+                  onBlur={(e) => convertAreaId(item.id, e.target.value)}
                 />
               </div>
               <div className={style.inputSection}>
@@ -100,7 +108,7 @@ const TodayDraw = () => {
               )}
             </div>
           ))}
-          <button className={style.saveBtn}>Save</button>
+          {areas.length > 0 && <button className={style.saveBtn}>Save</button>}
         </form>
       </div>
     </>
