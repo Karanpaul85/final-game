@@ -12,3 +12,8 @@ export const months = [
   "november",
   "december",
 ];
+export const adminPages = [
+  { url: "admin", content: "Today's Draw" },
+  { url: "homeContent", content: "Home Content" },
+  { url: "searchContent", content: "Search Content" },
+];

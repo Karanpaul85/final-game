@@ -1,0 +1,40 @@
+.adminSection{
+    display: flex;
+    gap: 2%;
+    width: 100%;
+    flex-direction: row;
+}
+.leftSection{
+    width: 29%;
+    background: var(--lightBg);
+    border: 1px solid var(--lightGrey);
+    border-radius: 8px;
+}
+.leftSection h2{
+    font-size: 16px;
+    padding: 20px;
+    border-bottom: 1px solid var(--lightGrey);
+}
+.leftSection ul{
+    padding: 20px;  
+    list-style: none;  
+}
+.leftSection ul li{
+    width: 100%;
+}
+.leftSection ul li a{
+width: 100%;
+padding: 10px;
+display: block;
+transition: all ease-in-out 0.25s;
+}
+.active a, .leftSection ul li a:hover{
+    background: var(--lightGrey);
+}
+.rightSection{
+    width: 69%;
+    background: var(--lightBg);
+    border: 1px solid var(--lightGrey);
+    border-radius: 8px;
+    padding: 20px;
+}
