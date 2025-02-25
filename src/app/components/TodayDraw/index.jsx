@@ -45,7 +45,8 @@ const TodayDraw = () => {
   // Function to handle form submission
   const handleSave = (e) => {
     e.preventDefault();
-    console.log("Saved Data:", areas);
+    const newAreaArr = areas.map(({ area, areaId }) => ({ area, areaId }));
+    console.log("Saved Data:", areas, newAreaArr);
     alert("Data Saved!");
   };
 

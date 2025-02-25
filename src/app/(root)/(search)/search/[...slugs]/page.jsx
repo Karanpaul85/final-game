@@ -4,9 +4,8 @@ import TableSection from "@/app/components/tableSection";
 import NotFound from "@/app/not-found";
 
 export default function Search({ params }) {
-  const pageSulgs = params?.slugs;
-  console.log(pageSulgs);
-  if (pageSulgs.length > 2) {
+  const pageSlugs = params?.slugs;
+  if (pageSlugs.length > 2) {
     return NotFound();
   }
   return (
@@ -14,8 +13,8 @@ export default function Search({ params }) {
       <main>
         <ContentSection />
         <SearchSection
-          selectedMonth={pageSulgs[0]}
-          selectedYear={pageSulgs[1]}
+          selectedMonth={pageSlugs[0]}
+          selectedYear={pageSlugs[1]}
         />
         <TableSection />
         <ContentSection />
