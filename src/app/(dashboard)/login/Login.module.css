@@ -1,0 +1,55 @@
+.loginFormSec{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: calc(100vh - 230px);
+}
+.loginFormSec form{
+    width: 100%;
+    max-width: 480px;
+    padding: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    border: 1px solid var(--lightGrey);
+    border-radius: 8px;
+}
+.loginFormSec form h2{
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+.inputSec{
+    position: relative;
+    width: 100%;
+    margin-bottom: 20px;
+}
+.inputSec:last-child{
+    margin-bottom: 0;
+}
+.inputSec input{
+    width: 100%;
+    padding: 16px;
+    border: 1px solid var(--lightGrey);
+    border-radius: 8px;
+}
+.inputSec input[type="submit"]{
+    cursor: pointer;
+    border: none;
+    background: var(--maroon);
+    color: var(--white);
+    text-transform: uppercase;
+    font-size: 20px;
+    font-weight: 600;
+}
+.error{
+    color: red;
+    font-size: 14px;
+}
+@media(max-width:768px){
+    .loginFormSec{
+        height: calc(100vh - 245px);
+        align-items: flex-start;
+    }
+}

@@ -7,13 +7,13 @@ import { months } from "@/app/utils/constants";
 import { getLastFiveYears } from "@/app/utils/common";
 import { useRouter } from "next/navigation";
 
-const SearchSection = ({ customCss }) => {
+const SearchSection = ({ customCss, selectedMonth, selectedYear }) => {
   const router = useRouter();
   const formRef = useRef();
   const [isError, setIsError] = useState(false);
   const [selectedValues, setSelectedValues] = useState({
-    year: "",
-    month: "",
+    year: selectedYear || "",
+    month: selectedMonth || "",
   });
   const [isShowDropDown, setIsShowDropDown] = useState({
     year: false,
@@ -37,11 +37,13 @@ const SearchSection = ({ customCss }) => {
   const selectYear = (year) => {
     setSelectedValues((prevState) => ({ ...prevState, year: year }));
     setIsShowDropDown({ year: false, month: false });
+    setIsError(false);
   };
 
   const selectMonth = (month) => {
     setSelectedValues((prevState) => ({ ...prevState, month: month }));
     setIsShowDropDown({ year: false, month: false });
+    setIsError(false);
   };
 
   const onSubmit = (e) => {
@@ -83,6 +85,7 @@ const SearchSection = ({ customCss }) => {
             isShow={isShowDropDown.year}
             itemList={getLastFiveYears()}
             fun={selectYear}
+            selected={selectedValues.year}
           />
         </div>
         <div className={style.dropDownSec}>
@@ -93,6 +96,7 @@ const SearchSection = ({ customCss }) => {
             isShow={isShowDropDown.month}
             itemList={months}
             fun={selectMonth}
+            selected={selectedValues.month}
           />
         </div>
         <button id="search" type="submit">

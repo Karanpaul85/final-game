@@ -23,6 +23,7 @@
     border-right: 1px solid var(--lightGrey);
     cursor: pointer;
     position: relative;
+    text-transform: capitalize;
 }
 .searchSection form button[type="submit"]{
     width: auto;

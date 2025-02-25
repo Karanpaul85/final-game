@@ -5,6 +5,7 @@ import NotFound from "@/app/not-found";
 
 export default function Search({ params }) {
   const pageSulgs = params?.slugs;
+  console.log(pageSulgs);
   if (pageSulgs.length > 2) {
     return NotFound();
   }
@@ -12,7 +13,10 @@ export default function Search({ params }) {
     <div className="wrapper">
       <main>
         <ContentSection />
-        <SearchSection />
+        <SearchSection
+          selectedMonth={pageSulgs[0]}
+          selectedYear={pageSulgs[1]}
+        />
         <TableSection />
         <ContentSection />
       </main>

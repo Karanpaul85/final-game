@@ -38,7 +38,8 @@
     border-bottom: 1px solid var(--lightGrey);
     cursor: pointer;
     transition: all ease-in-out 0.2s;
+    text-transform: capitalize;
 }
-.dropDownList li:hover{
+.dropDownList li:hover, .active{
     background: var(--lightGrey);
 }
