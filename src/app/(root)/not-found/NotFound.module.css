@@ -1,0 +1,18 @@
+.notFoundContainer{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: calc(100vh - 170px);
+    flex-direction: column;
+}
+.gotohome{
+    width: 200px;
+    padding: 20px 10px;
+    text-align: center;
+    background: var(--maroon);
+    color: var(--white);
+    border-radius: 8px;
+    text-transform: uppercase;
+    font-weight: 600;
+}

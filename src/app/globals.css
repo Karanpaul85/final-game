@@ -29,6 +29,9 @@ body {
   margin: 0;
   font-family: Inter;
 }
+img{
+  max-width: 100%;
+}
 
 a {
   color: inherit;

@@ -10,6 +10,7 @@ import { useRouter } from "next/navigation";
 const SearchSection = ({ customCss }) => {
   const router = useRouter();
   const formRef = useRef();
+  const [isError, setIsError] = useState(false);
   const [selectedValues, setSelectedValues] = useState({
     year: "",
     month: "",
@@ -45,10 +46,17 @@ const SearchSection = ({ customCss }) => {
 
   const onSubmit = (e) => {
     e.preventDefault();
+    if (
+      (selectedValues.year === "" && selectedValues.month === "") ||
+      selectedValues.year === "" ||
+      selectedValues.month === ""
+    ) {
+      setIsError(true);
+      return;
+    }
     router.push(
       `/search/${selectedValues.month.toLowerCase()}/${selectedValues.year}`
     );
-    // console.log(selectedValues);
   };
 
   useEffect(() => {
@@ -91,6 +99,9 @@ const SearchSection = ({ customCss }) => {
           <SearchIcon />
         </button>
       </form>
+      {isError && (
+        <div className={style.error}>Please select year and month</div>
+      )}
     </div>
   );
 };

@@ -3,7 +3,6 @@ import style from "./Header.module.css";
 import Link from "next/link";
 
 const Header = ({ isMobile }) => {
-  console.log(isMobile, "isMobile");
   return (
     <header className={style.header}>
       <Link href="/">
