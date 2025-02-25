@@ -1,7 +1,7 @@
 import SearchSection from "@/app/components/search";
 import ContentSection from "@/app/components/contentSection";
 import TableSection from "@/app/components/tableSection";
-import NotFound from "@/app/(root)/not-found/not-found";
+import NotFound from "@/app/not-found";
 
 export default function Search({ params }) {
   const pageSulgs = params?.slugs;

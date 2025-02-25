@@ -1,8 +1,8 @@
 import { Inter, Roboto_Mono } from "next/font/google";
-import "../globals.css";
-import Header from "../components/header";
-import Footer from "../components/footer";
-import { getRequestInfo } from "../utils/getRequestInfo";
+import "./globals.css";
+import Header from "./components/header";
+import Footer from "./components/footer";
+import { getRequestInfo } from "./utils/getRequestInfo";
 
 const inter = Inter({
   variable: "--font-inter",
