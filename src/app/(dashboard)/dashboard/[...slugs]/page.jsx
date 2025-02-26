@@ -1,44 +1,22 @@
-"use client";
 import Link from "next/link";
 import style from "./Admin.module.css";
 import { adminPages } from "@/app/utils/constants";
-import dynamic from "next/dynamic";
-import { useEffect } from "react";
-import { getCookie } from "@/app/utils/common";
-import { useRouter } from "next/navigation";
-
-const NotFound = dynamic(() => import("@/app/not-found"), { ssr: false });
-const TodayDraw = dynamic(() => import("@/app/components/TodayDraw"), {
-  ssr: false,
-});
-const HomeContent = dynamic(() => import("@/app/components/homeContent"), {
-  ssr: false,
-});
-const SearchContent = dynamic(() => import("@/app/components/searchContent"), {
-  ssr: false,
-});
+import AdminSection from "@/app/components/adminSection";
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 
 const Admin = ({ params }) => {
   const slugs = params?.slugs;
-  const router = useRouter();
-  useEffect(() => {
-    if (!getCookie("isUserLoggedIn")) {
-      router.replace("/login");
-    }
-  }, []);
 
-  const renderComponent = (slug) => {
-    switch (slug) {
-      case "admin":
-        return <TodayDraw />;
-      case "homeContent":
-        return <HomeContent />;
-      case "searchContent":
-        return <SearchContent />;
-      default:
-        return NotFound();
-    }
-  };
+  // Get cookies on the server side
+  const cookieStore = cookies();
+  const isUserLoggedIn = cookieStore.get("isUserLoggedIn")?.value;
+
+  // Redirect if not logged in
+  if (!isUserLoggedIn) {
+    redirect("/login");
+  }
+
   return (
     <div className="wrapper">
       <main className={style.adminSection}>
@@ -55,7 +33,10 @@ const Admin = ({ params }) => {
             ))}
           </ul>
         </div>
-        <div className={style.rightSection}>{renderComponent(slugs[0])}</div>
+
+        <div className={style.rightSection}>
+          <AdminSection slug={slugs[0]} />
+        </div>
       </main>
     </div>
   );

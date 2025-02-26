@@ -1,11 +1,18 @@
 "use client";
-import { useState } from "react";
+import { isEqual } from "lodash";
+import { useEffect, useState } from "react";
 import style from "./Today.module.css";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { removeSpace } from "@/app/utils/common";
+import { currentDate, getCurrentTime, removeSpace } from "@/app/utils/common";
+import axios from "axios";
 
 const TodayDraw = () => {
   const [areas, setAreas] = useState([]);
+  const [allAreas, setAllAreas] = useState(null);
+  const [todayData, setTodayData] = useState(null);
+
+  const { day, month, year } = currentDate();
+  // console.log(day, month, year, "day, month, year ");
 
   // Function to add a new area row
   const addArea = () => {
@@ -43,12 +50,66 @@ const TodayDraw = () => {
   };
 
   // Function to handle form submission
-  const handleSave = (e) => {
+  const handleSave = async (e) => {
     e.preventDefault();
+    const resultToSave = {
+      date: day,
+      month,
+      year,
+      results: areas.map((item) => ({
+        area: item.area,
+        areaId: item.areaId,
+        winner: item.winner,
+        entries: item.entries,
+        ...(item.winner ? { time: getCurrentTime() } : {}),
+      })),
+    };
+    console.log(resultToSave);
     const newAreaArr = areas.map(({ area, areaId }) => ({ area, areaId }));
-    console.log("Saved Data:", areas, newAreaArr);
+
+    !isEqual(newAreaArr, allAreas) &&
+      (await axios.post("/api/areas", newAreaArr));
+
+    const savedResult = await axios.post("/api/addResult", resultToSave);
+    console.log(savedResult.data.data, "savedResult*********");
     alert("Data Saved!");
   };
+
+  useEffect(() => {
+    const fetchAreas = async () => {
+      try {
+        const response = await axios.get("/api/areas");
+        const todayData = await axios.get("/api/todayResult", {
+          params: {
+            day,
+          },
+        });
+        // console.log(todayData.data?.data, "todayData*****");
+        setTodayData(todayData.data?.data);
+        setAllAreas(
+          response.data?.data[0]?.areas.map(({ area, areaId }) => ({
+            area,
+            areaId,
+          }))
+        );
+        const finalAreas = response.data?.data[0]?.areas.map((item, index) => ({
+          id: index + 1,
+          area: item.area,
+          areaId: item.areaId,
+          winner: "",
+          entries: "",
+          isNew: false,
+        }));
+        setAreas(finalAreas);
+      } catch (error) {
+        console.error("Error fetching areas:", error);
+      }
+    };
+
+    if (!allAreas) {
+      fetchAreas();
+    }
+  }, []);
 
   return (
     <>
@@ -59,7 +120,7 @@ const TodayDraw = () => {
       </div>
       <div className={style.formSection}>
         <form onSubmit={handleSave}>
-          {areas?.map((item) => (
+          {areas?.map((item, index) => (
             <div className={style.areaInputs} key={item.id}>
               <div className={style.inputSection}>
                 <input
@@ -67,6 +128,7 @@ const TodayDraw = () => {
                   placeholder="Enter Area Name"
                   value={item.area}
                   name={item.areaId}
+                  disabled={allAreas[index]?.areaId === item?.areaId}
                   onChange={(e) =>
                     handleChange(item.id, "area", e.target.value)
                   }
