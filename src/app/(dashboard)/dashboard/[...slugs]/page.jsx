@@ -1,7 +1,11 @@
+"use client";
 import Link from "next/link";
 import style from "./Admin.module.css";
 import { adminPages } from "@/app/utils/constants";
 import dynamic from "next/dynamic";
+import { useEffect } from "react";
+import { getCookie } from "@/app/utils/common";
+import { useRouter } from "next/navigation";
 
 const NotFound = dynamic(() => import("@/app/not-found"), { ssr: false });
 const TodayDraw = dynamic(() => import("@/app/components/TodayDraw"), {
@@ -16,6 +20,13 @@ const SearchContent = dynamic(() => import("@/app/components/searchContent"), {
 
 const Admin = ({ params }) => {
   const slugs = params?.slugs;
+  const router = useRouter();
+  useEffect(() => {
+    if (!getCookie("isUserLoggedIn")) {
+      router.replace("/login");
+    }
+  }, []);
+
   const renderComponent = (slug) => {
     switch (slug) {
       case "admin":

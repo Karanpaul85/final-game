@@ -47,6 +47,15 @@
     color: red;
     font-size: 14px;
 }
+.showHide{
+    position: absolute;
+    right: 0;
+    height: 100%;
+    width: 44px;
+    background: none;
+    border: 0;
+    cursor: pointer;
+}
 @media(max-width:768px){
     .loginFormSec{
         height: calc(100vh - 245px);
