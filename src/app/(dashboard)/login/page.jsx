@@ -111,7 +111,11 @@ const Login = () => {
               </button>
             </div>
             <div className={style.inputSec}>
-              <button type="submit" disabled={isLoading}>
+              <button
+                type="submit"
+                disabled={isLoading}
+                className={style.submit}
+              >
                 {isLoading ? "Logging in..." : "Login"}
               </button>
             </div>

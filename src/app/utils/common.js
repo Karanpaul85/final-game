@@ -17,11 +17,11 @@ export const removeSpace = (value) => {
   return areaId;
 };
 
-export const setCookie = (name = "", value = "", days = 0, domain = "") => {
+export const setCookie = (name = "", value = "", hours = 0, domain = "") => {
   let expires = "";
-  if (days) {
+  if (hours) {
     const date = new Date();
-    date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
+    date.setTime(date.getTime() + hours * 60 * 60 * 1000);
     expires = `; expires=${date.toUTCString()}`;
   }
 
