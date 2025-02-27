@@ -48,3 +48,8 @@
         min-width: 150px;
     }
 }
+@media(max-width:420px){
+    .searchSection form button{
+        min-width: 130px;
+    }
+}

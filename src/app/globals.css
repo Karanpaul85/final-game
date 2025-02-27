@@ -54,4 +54,7 @@ main{
   .wrapper{
     padding: 30px 16px;
   }
+  p{
+    font-size: 14px;
+  }
 }

@@ -13,9 +13,7 @@ export async function GET(req) {
       ...(year && { year }),
     };
 
-    const results = await Result.findOne(query);
-
-    // console.log(query, "KKKKKKKKKKKKKKKK", results);
+    const results = await Result.find(query);
 
     return new Response(
       JSON.stringify({ message: "successfully", data: results }),

@@ -1,5 +1,5 @@
 import style from "./TableSection.module.css";
-const TableSection = ({ data }) => {
+const TableSection = ({ data, areaData }) => {
   console.log(data, "data");
   return (
     <div className={style.tableSection}>
@@ -7,60 +7,27 @@ const TableSection = ({ data }) => {
         <thead>
           <tr>
             <th>Date</th>
-            <th>Shalimar</th>
-            <th>Gali</th>
-            <th>Shalimar Light</th>
-            <th>Gaziyabad</th>
-            <th>Area1</th>
-            <th>Area2</th>
+            {areaData.length > 0 &&
+              areaData.map((item) => <th key={item.areaId}>{item.area}</th>)}
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>20-02-25</td>
-            <td>25</td>
-            <td>20</td>
-            <td>02</td>
-            <td>25</td>
-            <td>20</td>
-            <td>02</td>
-          </tr>
-          <tr>
-            <td>20-02-25</td>
-            <td>25</td>
-            <td>20</td>
-            <td>02</td>
-            <td>25</td>
-            <td>20</td>
-            <td>02</td>
-          </tr>
-          <tr>
-            <td>20-02-25</td>
-            <td>25</td>
-            <td>20</td>
-            <td>02</td>
-            <td>25</td>
-            <td>20</td>
-            <td>02</td>
-          </tr>
-          <tr>
-            <td>20-02-25</td>
-            <td>25</td>
-            <td>20</td>
-            <td>02</td>
-            <td>25</td>
-            <td>20</td>
-            <td>02</td>
-          </tr>
-          <tr>
-            <td>20-02-25</td>
-            <td>25</td>
-            <td>20</td>
-            <td>02</td>
-            <td>25</td>
-            <td>20</td>
-            <td>02</td>
-          </tr>
+          {data.length > 0 &&
+            data.map((item) => (
+              <tr key={item.date}>
+                <td>{item.date}</td>
+                {areaData.map((area) => {
+                  const result = item.results.find(
+                    (res) => res.areaId === area.areaId
+                  );
+                  return (
+                    <td key={area.areaId}>
+                      {result?.luckyWinner !== "" ? result?.luckyWinner : "XX"}
+                    </td>
+                  );
+                })}
+              </tr>
+            ))}
         </tbody>
       </table>
     </div>

@@ -4,9 +4,11 @@ import { adminPages } from "@/app/utils/constants";
 import AdminSection from "@/app/components/adminSection";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import { getRequestInfo } from "@/app/utils/getRequestInfo";
 
 const Admin = ({ params }) => {
   const slugs = params?.slugs;
+  const { isMobile } = getRequestInfo();
 
   // Get cookies on the server side
   const cookieStore = cookies();

@@ -42,3 +42,11 @@ transition: all ease-in-out 0.25s;
     position: relative;
     overflow: hidden;
 }
+@media(max-width:768px){
+    .rightSection, .leftSection{
+        width: 100%;
+    }
+    .leftSection {
+        margin-bottom: 30px;
+    }
+}
