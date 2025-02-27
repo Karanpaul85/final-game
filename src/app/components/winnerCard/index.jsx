@@ -1,14 +1,14 @@
 import style from "./WinnerCard.module.css";
-const WinnerCard = () => {
+const WinnerCard = ({ cardData }) => {
   return (
     <div className={style.card}>
-      <h4>Shalimar Savera</h4>
-      <p className={style.time}>12:15 PM</p>
+      <h4>{cardData?.area}</h4>
+      <p className={style.time}>{cardData?.drawTime}</p>
       <p>
-        Lucky Winner :- <span>35</span>
+        Lucky Winner :- <span>{cardData?.luckyWinner}</span>
       </p>
       <p>
-        Total Entries :- <span>95</span>
+        Total Entries :- <span>{cardData?.totalEntries}</span>
       </p>
     </div>
   );

@@ -7,7 +7,6 @@ export async function POST(req) {
     await mongoose.connect(connectionStr);
     const body = await req.json();
     const { date, month, year, results } = body;
-    console.log(results, "sdsdsdsd");
 
     const updatedResults = results.map((item) => ({
       area: item.area,
