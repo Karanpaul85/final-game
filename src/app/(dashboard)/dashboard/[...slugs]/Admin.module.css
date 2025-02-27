@@ -3,12 +3,14 @@
     gap: 2%;
     width: 100%;
     flex-direction: row;
+    position: relative;
 }
 .leftSection{
     width: 29%;
     background: var(--lightBg);
     border: 1px solid var(--lightGrey);
     border-radius: 8px;
+    position: relative;
 }
 .leftSection h2{
     font-size: 16px;
@@ -37,4 +39,6 @@ transition: all ease-in-out 0.25s;
     border: 1px solid var(--lightGrey);
     border-radius: 8px;
     padding: 20px;
+    position: relative;
+    overflow: hidden;
 }

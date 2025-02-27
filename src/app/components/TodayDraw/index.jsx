@@ -5,11 +5,13 @@ import style from "./Today.module.css";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { currentDate, getCurrentTime, removeSpace } from "@/app/utils/common";
 import axios from "axios";
+import Loader from "../loader";
 
 const TodayDraw = () => {
   const [areas, setAreas] = useState([]);
   const [allAreas, setAllAreas] = useState(null);
   const [todayData, setTodayData] = useState(null);
+  const [isLoader, setIsLoader] = useState(true);
 
   const { day, month, year } = currentDate();
   // console.log(day, month, year, "day, month, year ");
@@ -64,15 +66,16 @@ const TodayDraw = () => {
         ...(item.winner ? { time: getCurrentTime() } : {}),
       })),
     };
-    console.log(resultToSave);
+
     const newAreaArr = areas.map(({ area, areaId }) => ({ area, areaId }));
 
     !isEqual(newAreaArr, allAreas) &&
       (await axios.post("/api/areas", newAreaArr));
 
     const savedResult = await axios.post("/api/addResult", resultToSave);
-    console.log(savedResult.data.data, "savedResult*********");
-    alert("Data Saved!");
+    if (savedResult?.data?.success) {
+      window?.location?.reload();
+    }
   };
 
   useEffect(() => {
@@ -81,11 +84,12 @@ const TodayDraw = () => {
         const response = await axios.get("/api/areas");
         const todayData = await axios.get("/api/todayResult", {
           params: {
-            day,
+            date: day,
           },
         });
-        // console.log(todayData.data?.data, "todayData*****");
-        setTodayData(todayData.data?.data);
+
+        todayData.data?.message === "successfully" &&
+          setTodayData(todayData.data?.data);
         setAllAreas(
           response.data?.data[0]?.areas.map(({ area, areaId }) => ({
             area,
@@ -96,11 +100,18 @@ const TodayDraw = () => {
           id: index + 1,
           area: item.area,
           areaId: item.areaId,
-          winner: "",
-          entries: "",
+          winner:
+            todayData.data.data.results[index]?.areaId === item.areaId
+              ? todayData.data.data.results[index]?.luckyWinner
+              : "",
+          entries:
+            todayData.data.data.results[index]?.areaId === item.areaId
+              ? todayData.data.data.results[index]?.totalEntries
+              : "",
           isNew: false,
         }));
         setAreas(finalAreas);
+        setIsLoader(false);
       } catch (error) {
         console.error("Error fetching areas:", error);
       }
@@ -113,6 +124,7 @@ const TodayDraw = () => {
 
   return (
     <>
+      {isLoader && <Loader position="absolute" />}
       <div className={style.addAreaBtnSection}>
         <button onClick={addArea} className={style.addBtn}>
           Add Area
@@ -140,9 +152,16 @@ const TodayDraw = () => {
                   type="text"
                   placeholder="Winner No."
                   value={item.winner}
-                  name={item.areaId}
+                  name={item.winner}
+                  disabled={
+                    item.winner !== "" &&
+                    todayData?.results[index]?.luckyWinner === item.winner
+                  }
                   onChange={(e) =>
                     handleChange(item.id, "winner", e.target.value)
+                  }
+                  onInput={(e) =>
+                    (e.target.value = e.target.value.replace(/\D/g, ""))
                   }
                 />
               </div>
@@ -151,9 +170,16 @@ const TodayDraw = () => {
                   type="text"
                   placeholder="Total Entries"
                   value={item.entries}
-                  name={item.areaId}
+                  name={item.entries}
+                  disabled={
+                    item.entries !== "" &&
+                    todayData?.results[index]?.totalEntries === item.entries
+                  }
                   onChange={(e) =>
                     handleChange(item.id, "entries", e.target.value)
+                  }
+                  onInput={(e) =>
+                    (e.target.value = e.target.value.replace(/\D/g, ""))
                   }
                 />
               </div>

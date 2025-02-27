@@ -6,10 +6,9 @@ export async function GET(req) {
   try {
     await mongoose.connect(connectionStr);
     const url = new URL(req.url);
-    const day = url.searchParams.get("day");
-    console.log(day, "day");
-    const query = day ? { day } : {};
-    const results = await Result.find();
+    const date = url.searchParams.get("date");
+    const query = date ? { date } : {};
+    const results = await Result.findOne(query);
     if (results) {
       return new Response(
         JSON.stringify({ message: "successfully", data: results }),
@@ -19,6 +18,13 @@ export async function GET(req) {
         }
       );
     }
+    return new Response(
+      JSON.stringify({ message: "successfully", data: results }),
+      {
+        status: 200,
+        headers: { "Content-Type": "application/json" },
+      }
+    );
   } catch (error) {
     console.error("Error:", error);
     return new Response(JSON.stringify({ error: "Internal Server Error" }), {

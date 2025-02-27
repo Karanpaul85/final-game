@@ -25,6 +25,6 @@ const AdminSection = ({ slug }) => {
         return <NotFound />;
     }
   }, []);
-  return <div className="">{renderComponent}</div>;
+  return renderComponent;
 };
 export default AdminSection;
