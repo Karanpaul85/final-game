@@ -15,12 +15,16 @@ export default async function Home() {
   } catch (error) {
     console.error("Error fetching winner data:", error);
   }
+
+  const hasLuckyWinner = winnerData?.data?.results.some(
+    (item) => item.luckyWinner.trim() !== ""
+  );
   return (
     <div className="wrapper">
       <main>
         <ContentSection />
         <SearchSection />
-        <WinnerList data={winnerData} />
+        {hasLuckyWinner && <WinnerList data={winnerData} />}
         <ContentSection />
       </main>
     </div>

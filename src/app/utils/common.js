@@ -1,3 +1,5 @@
+import { months } from "./constants";
+
 export const getLastFiveYears = () => {
   const currentYear = new Date().getFullYear();
   return Array.from({ length: 5 }, (_, i) => currentYear - i);
@@ -51,7 +53,7 @@ export const currentDate = () => {
   const month = date.getMonth();
   const year = date.getFullYear();
   const day = `${cDate}-${month + 1}-${year}`;
-  return { day, month: month + 1, year };
+  return { day, month: months[month], year };
 };
 
 export const getCurrentTime = () => {

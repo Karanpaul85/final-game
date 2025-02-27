@@ -14,7 +14,6 @@ const TodayDraw = () => {
   const [isLoader, setIsLoader] = useState(true);
 
   const { day, month, year } = currentDate();
-  // console.log(day, month, year, "day, month, year ");
 
   // Function to add a new area row
   const addArea = () => {
@@ -101,16 +100,16 @@ const TodayDraw = () => {
           area: item.area,
           areaId: item.areaId,
           winner:
-            todayData.data.data.results[index]?.areaId === item.areaId
-              ? todayData.data.data.results[index]?.luckyWinner
+            todayData?.data?.data?.results[index]?.areaId === item.areaId
+              ? todayData?.data?.data?.results[index]?.luckyWinner
               : "",
           entries:
-            todayData.data.data.results[index]?.areaId === item.areaId
-              ? todayData.data.data.results[index]?.totalEntries
+            todayData?.data?.data?.results[index]?.areaId === item.areaId
+              ? todayData?.data?.data?.results[index]?.totalEntries
               : "",
           isNew: false,
         }));
-        setAreas(finalAreas);
+        setAreas(finalAreas || []);
         setIsLoader(false);
       } catch (error) {
         console.error("Error fetching areas:", error);
@@ -121,7 +120,6 @@ const TodayDraw = () => {
       fetchAreas();
     }
   }, []);
-
   return (
     <>
       {isLoader && <Loader position="absolute" />}
@@ -140,7 +138,7 @@ const TodayDraw = () => {
                   placeholder="Enter Area Name"
                   value={item.area}
                   name={item.areaId}
-                  disabled={allAreas[index]?.areaId === item?.areaId}
+                  disabled={allAreas?.[index]?.areaId === item?.areaId}
                   onChange={(e) =>
                     handleChange(item.id, "area", e.target.value)
                   }
@@ -197,7 +195,7 @@ const TodayDraw = () => {
               )}
             </div>
           ))}
-          {areas.length > 0 && <button className={style.saveBtn}>Save</button>}
+          {areas?.length > 0 && <button className={style.saveBtn}>Save</button>}
         </form>
       </div>
     </>
