@@ -22,7 +22,11 @@ const TableSection = ({ data, areaData }) => {
                   );
                   return (
                     <td key={area.areaId}>
-                      {result?.luckyWinner !== "" ? result?.luckyWinner : "XX"}
+                      {result
+                        ? result?.luckyWinner !== ""
+                          ? result?.luckyWinner
+                          : "XX"
+                        : "XXX"}
                     </td>
                   );
                 })}
