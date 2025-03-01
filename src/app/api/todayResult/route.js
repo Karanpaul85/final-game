@@ -7,8 +7,17 @@ export async function GET(req) {
     await mongoose.connect(connectionStr);
     const url = new URL(req.url);
     const date = url.searchParams.get("date");
-    const query = date ? { date } : {};
-    const results = await Result.findOne(query);
+
+    if (!date) {
+      return new Response(
+        JSON.stringify({ message: "successfully", data: {} }),
+        {
+          status: 200,
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+    }
+    const results = await Result.findOne({ date });
     if (results) {
       return new Response(
         JSON.stringify({ message: "successfully", data: results }),

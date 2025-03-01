@@ -1,0 +1,19 @@
+.announcement{ 
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 20px 0;
+    flex-direction: column;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    padding: 10px;
+}
+.announcement img{
+    height: auto;
+}
+.message{
+    color: red;
+    font-size: 20px;
+    text-align: center;
+}

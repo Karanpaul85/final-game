@@ -6,6 +6,7 @@ import axios from "axios";
 
 const HomeContent = () => {
   const [isLoader, setIsLoader] = useState(true);
+  const [isEdit, setIsEdit] = useState(false);
   const [isFetched, setIsFetched] = useState(false); // Prevent infinite loop
   const [content, setContent] = useState({
     topContent: "",
@@ -21,8 +22,26 @@ const HomeContent = () => {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    const savedData = await axios.post("/api/homeContent", content);
-    console.log(savedData, "savedData");
+    if (isEdit) {
+      setIsLoader(true);
+      try {
+        const savedData = await axios.post("/api/homeContent", content);
+        if (savedData.data.success) {
+          setIsLoader(false);
+          setIsEdit(false);
+        }
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setIsLoader(false);
+      }
+    } else {
+      setIsEdit(true);
+    }
+  };
+
+  const onCancelEdit = () => {
+    setIsEdit(false);
   };
 
   useEffect(() => {
@@ -30,7 +49,11 @@ const HomeContent = () => {
       try {
         const res = await axios.get("/api/homeContent");
         if (res.data.success) {
-          setContent(res.data.data || {}); // Ensure fallback to an empty object
+          setContent((prev) => ({
+            ...prev,
+            topContent: res.data?.data?.topContent || "",
+            footerContent: res.data?.data?.footerContent || "",
+          }));
         }
       } catch (error) {
         console.error("Error fetching home content:", error);
@@ -42,6 +65,10 @@ const HomeContent = () => {
 
     if (!isFetched) {
       fetchData();
+    } else {
+      if (content?.topContent !== "" || content?.footerContent !== "") {
+        setIsEdit(false);
+      }
     }
   }, [isFetched]); // Only trigger once
 
@@ -55,6 +82,7 @@ const HomeContent = () => {
             name="topContent"
             onChange={onChange}
             value={content.topContent}
+            disabled={!isEdit}
           />
         </div>
         <div className={style.heading}>Home Footer Content</div>
@@ -62,12 +90,24 @@ const HomeContent = () => {
           <textarea
             name="footerContent"
             onChange={onChange}
+            disabled={!isEdit}
             value={content.footerContent} // ✅ Fixed value binding
           />
         </div>
-        <button type="submit" className={style.saveBtn}>
-          Save
-        </button>
+        <div className={style.buttonSec}>
+          <button type="submit" className={style.saveBtn}>
+            {isEdit ? "Save" : "Edit"}
+          </button>
+          {isEdit && (
+            <button
+              type="button"
+              className={style.cancel}
+              onClick={onCancelEdit}
+            >
+              Cancel
+            </button>
+          )}
+        </div>
       </form>
     </>
   );

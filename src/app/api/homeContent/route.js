@@ -5,7 +5,7 @@ import mongoose from "mongoose";
 export async function GET(req) {
   try {
     await mongoose.connect(connectionStr);
-    const response = await HomeDataContent.find();
+    const response = await HomeDataContent.findOne();
 
     return new Response(
       JSON.stringify({ success: true, data: response || [] }),
