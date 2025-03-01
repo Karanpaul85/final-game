@@ -1,6 +1,5 @@
 import style from "./TableSection.module.css";
 const TableSection = ({ data, areaData }) => {
-  console.log(data, "data");
   return (
     <div className={style.tableSection}>
       <table className={style.customers}>

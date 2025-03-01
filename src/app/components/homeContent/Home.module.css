@@ -17,6 +17,7 @@
     border: 1px solid var(--lightGrey);
     border-radius: 8px;
     height: 200px;
+    padding: 10px;
 }
 .buttonSec{
     display: flex;

@@ -34,8 +34,6 @@ export default async function Home() {
     !isEmpty(winnerData.data) &&
     winnerData?.data?.results.some((item) => item.luckyWinner.trim() !== "");
 
-  // console.log(contentData, "contentData**********");
-
   return (
     <div className="wrapper">
       <main>

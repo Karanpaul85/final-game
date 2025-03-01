@@ -49,7 +49,6 @@ const Login = () => {
           email: cryptr.encrypt(inputValues.email),
           password: cryptr.encrypt(inputValues.password),
         };
-        console.log(encryptedData, "encryptedData");
         const res = await axios.post("/api/login", encryptedData, {
           headers: { "Content-Type": "application/json" },
         });

@@ -10,6 +10,8 @@ export default async function Search({ params }) {
 
   let monthData = null;
   let allArea = null;
+  let contentData = null;
+
   const API_BASE_URL =
     process.env.NODE_ENV === "development"
       ? process.env.LOCAL_URL // Local API during development
@@ -24,6 +26,9 @@ export default async function Search({ params }) {
 
     const allAreaData = await axios.get(`${API_BASE_URL}/api/areas`);
 
+    const fetchContent = await axios.get(`${API_BASE_URL}/api/searchContent`);
+    console.log(fetchContent.data, "sdddsdsds");
+
     if (allAreaData?.data.message === "successful") {
       allArea = allAreaData?.data?.data[0]?.areas;
     }
@@ -31,6 +36,10 @@ export default async function Search({ params }) {
     result?.data?.message === "successfully"
       ? (monthData = result?.data?.data)
       : (monthData = []);
+
+    if (fetchContent.data?.success) {
+      contentData = fetchContent.data?.data;
+    }
   } catch (error) {
     console.error("Error fetching winner data:", error);
   }
@@ -38,10 +47,13 @@ export default async function Search({ params }) {
   if (pageSlugs.length > 2) {
     return NotFound();
   }
+
   return (
     <div className="wrapper">
       <main>
-        <ContentSection />
+        {contentData?.topContent && (
+          <ContentSection data={contentData?.topContent} />
+        )}
         <SearchSection
           selectedMonth={pageSlugs[0]}
           selectedYear={pageSlugs[1]}
@@ -53,7 +65,9 @@ export default async function Search({ params }) {
             Sorry we can not find any result for this month
           </p>
         )}
-        <ContentSection />
+        {contentData?.footerContent && (
+          <ContentSection data={contentData?.footerContent} />
+        )}
       </main>
     </div>
   );

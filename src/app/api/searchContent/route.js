@@ -1,11 +1,11 @@
 import { connectionStr } from "@/app/utils/db";
-import { HomeDataContent } from "@/app/utils/models/home";
+import { SearchDataContent } from "@/app/utils/models/search";
 import mongoose from "mongoose";
 
 export async function GET(req) {
   try {
     await mongoose.connect(connectionStr);
-    const response = await HomeDataContent.findOne();
+    const response = await SearchDataContent.findOne();
 
     return new Response(
       JSON.stringify({ success: true, data: response || [] }),
@@ -32,7 +32,7 @@ export async function POST(req) {
     const { topContent, footerContent } = await req.json();
 
     // Find existing document
-    let existingData = await HomeDataContent.findOne();
+    let existingData = await SearchDataContent.findOne();
 
     if (existingData) {
       // Update existing document
@@ -53,7 +53,7 @@ export async function POST(req) {
       );
     } else {
       // Create new document
-      const newData = new HomeDataContent({ topContent, footerContent });
+      const newData = new SearchDataContent({ topContent, footerContent });
       const savedData = await newData.save();
 
       return new Response(
