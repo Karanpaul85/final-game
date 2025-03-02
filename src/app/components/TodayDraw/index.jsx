@@ -25,6 +25,7 @@ const TodayDraw = () => {
         areaId: "",
         winner: "",
         entries: "",
+        time: "",
         isNew: true,
       },
     ]);
@@ -62,10 +63,9 @@ const TodayDraw = () => {
         areaId: item.areaId,
         winner: item.winner,
         entries: item.entries,
-        ...(item.winner ? { time: getCurrentTime() } : {}),
+        time: item.winner && item.time === "" ? getCurrentTime() : item.time,
       })),
     };
-
     const newAreaArr = areas.map(({ area, areaId }) => ({ area, areaId }));
 
     !isEqual(newAreaArr, allAreas) &&
@@ -86,7 +86,6 @@ const TodayDraw = () => {
             date: day,
           },
         });
-
         todayData.data?.message === "successfully" &&
           setTodayData(todayData.data?.data);
         setAllAreas(
@@ -107,6 +106,10 @@ const TodayDraw = () => {
             todayData?.data?.data?.results[index]?.areaId === item.areaId
               ? todayData?.data?.data?.results[index]?.totalEntries
               : "",
+          time:
+            todayData?.data?.data?.results[index]?.areaId === item.areaId
+              ? todayData?.data?.data?.results[index]?.drawTime
+              : "",
           isNew: false,
         }));
         setAreas(finalAreas || []);
@@ -120,6 +123,7 @@ const TodayDraw = () => {
       fetchAreas();
     }
   }, []);
+
   return (
     <>
       {isLoader && <Loader position="absolute" />}

@@ -1,0 +1,23 @@
+.editAreaSec{
+    display: flex;
+    width: 100%;
+}
+.editAreaSec ul{
+    display: flex;
+    flex-direction: column;
+    list-style: none;
+    gap: 10px;
+}
+.editAreaSec ul li{
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+.editAreaSec ul li input{
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid var(--lightGrey);
+}
+.editAreaSec ul li svg{
+    cursor: pointer;
+}

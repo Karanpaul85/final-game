@@ -27,7 +27,6 @@ export default async function Search({ params }) {
     const allAreaData = await axios.get(`${API_BASE_URL}/api/areas`);
 
     const fetchContent = await axios.get(`${API_BASE_URL}/api/searchContent`);
-    console.log(fetchContent.data, "sdddsdsds");
 
     if (allAreaData?.data.message === "successful") {
       allArea = allAreaData?.data?.data[0]?.areas;

@@ -12,6 +12,10 @@ const SearchContent = dynamic(() => import("@/app/components/searchContent"), {
   ssr: false,
 });
 
+const EditArea = dynamic(() => import("@/app/components/editAreas"), {
+  ssr: false,
+});
+
 const AdminSection = ({ slug }) => {
   const renderComponent = useMemo(() => {
     switch (slug) {
@@ -21,6 +25,8 @@ const AdminSection = ({ slug }) => {
         return <HomeContent />;
       case "searchContent":
         return <SearchContent />;
+      case "editArea":
+        return <EditArea />;
       default:
         return <NotFound />;
     }
