@@ -4,6 +4,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import style from "./EditAreas.module.css";
+import Loader from "../loader";
 
 const EditArea = () => {
   const [areas, setAreas] = useState([]);
@@ -30,6 +31,24 @@ const EditArea = () => {
     }, 0);
   };
 
+  const handleDelete = async (index) => {
+    setLoading(true);
+    try {
+      const response = await axios.delete("/api/areas", {
+        data: areas[index], // Send payload inside the "data" property
+      });
+
+      if (response.data.data.acknowledged) {
+        setAreas((prev) => prev.filter((_, i) => i !== index));
+        setLoading(false);
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
     const fetchAreas = async () => {
       try {
@@ -47,12 +66,9 @@ const EditArea = () => {
     fetchAreas();
   }, []); // ✅ Prevent infinite loop
 
-  if (loading) {
-    return <p>Loading...</p>;
-  }
-
   return (
     <>
+      {loading && <Loader position="absolute" />}
       {areas.length > 0 ? (
         <div className={style.editAreaSec}>
           <ul>
@@ -67,8 +83,8 @@ const EditArea = () => {
                   onChange={(e) => onChange(e, index)}
                   onBlur={onBlur}
                 />
-                <EditIcon onClick={() => handleEdit(index)} />
-                <DeleteIcon />
+                {/* <EditIcon onClick={() => handleEdit(index)} /> */}
+                <DeleteIcon onClick={() => handleDelete(index)} />
               </li>
             ))}
           </ul>

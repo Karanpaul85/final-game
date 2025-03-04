@@ -62,3 +62,23 @@ export async function POST(req) {
     });
   }
 }
+
+export async function DELETE(req) {
+  try {
+    await mongoose.connect(connectionStr);
+    const body = await req.json();
+    const { areaId } = body;
+
+    const result = await Area.updateOne({}, { $pull: { areas: { areaId } } });
+
+    return new Response(JSON.stringify({ success: true, data: result }), {
+      status: 200,
+      headers: { "Content-Type": "application/json" },
+    });
+  } catch (error) {
+    return new Response(JSON.stringify({ error: "Internal Server Error" }), {
+      status: 500,
+      headers: { "Content-Type": "application/json" },
+    });
+  }
+}

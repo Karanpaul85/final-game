@@ -9,7 +9,6 @@ export default async function Search({ params }) {
   const pageSlugs = params?.slugs;
 
   let monthData = null;
-  let allArea = null;
   let contentData = null;
 
   const API_BASE_URL =
@@ -24,13 +23,7 @@ export default async function Search({ params }) {
       },
     });
 
-    const allAreaData = await axios.get(`${API_BASE_URL}/api/areas`);
-
     const fetchContent = await axios.get(`${API_BASE_URL}/api/searchContent`);
-
-    if (allAreaData?.data.message === "successful") {
-      allArea = allAreaData?.data?.data[0]?.areas;
-    }
 
     result?.data?.message === "successfully"
       ? (monthData = result?.data?.data)
@@ -47,6 +40,14 @@ export default async function Search({ params }) {
     return NotFound();
   }
 
+  const uniqueAreas = Array.from(
+    new Map(
+      monthData.flatMap((entry) =>
+        entry.results.map(({ area, areaId }) => [areaId, { area, areaId }])
+      )
+    ).values()
+  );
+
   return (
     <div className="wrapper">
       <main>
@@ -58,7 +59,7 @@ export default async function Search({ params }) {
           selectedYear={pageSlugs[1]}
         />
         {monthData.length > 0 ? (
-          <TableSection data={monthData} areaData={allArea} />
+          <TableSection data={monthData} areaData={uniqueAreas} />
         ) : (
           <p className={style.notFound}>
             Sorry we can not find any result for this month
