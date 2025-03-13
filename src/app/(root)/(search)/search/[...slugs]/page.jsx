@@ -4,12 +4,23 @@ import TableSection from "@/app/components/tableSection";
 import NotFound from "@/app/not-found";
 import axios from "axios";
 import style from "./../Search.module.css";
+import { currentDate } from "@/app/utils/common";
+import { months } from "@/app/utils/constants";
 
 export default async function Search({ params }) {
   const pageSlugs = params?.slugs;
 
   let monthData = null;
   let contentData = null;
+
+  const selectedMonth = pageSlugs[0];
+  const selectedYear = Number(pageSlugs[1]);
+  const { month: currentMonth, year: currentYear } = currentDate();
+
+  const currentMonthIndex = months.findIndex((month) => month === currentMonth);
+  const selectedMonthIndex = months.findIndex(
+    (month) => month === selectedMonth
+  );
 
   const API_BASE_URL =
     process.env.NODE_ENV === "development"
@@ -58,13 +69,19 @@ export default async function Search({ params }) {
           selectedMonth={pageSlugs[0]}
           selectedYear={pageSlugs[1]}
         />
-        {monthData.length > 0 ? (
-          <TableSection data={monthData} areaData={uniqueAreas} />
+        {selectedYear === currentYear &&
+        selectedMonthIndex <= currentMonthIndex ? (
+          monthData.length > 0 ? (
+            <TableSection data={monthData} areaData={uniqueAreas} />
+          ) : (
+            <p className={style.notFound}>
+              Sorry we can not find any result for this month
+            </p>
+          )
         ) : (
-          <p className={style.notFound}>
-            Sorry we can not find any result for this month
-          </p>
+          <p className={style.notFound}>Please wait for next month quiz</p>
         )}
+
         {contentData?.footerContent && (
           <ContentSection data={contentData?.footerContent} />
         )}
