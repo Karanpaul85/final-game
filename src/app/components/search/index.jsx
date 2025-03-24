@@ -1,49 +1,33 @@
 "use client";
-import SearchIcon from "@mui/icons-material/Search";
 import style from "./Search.module.css";
-import { useEffect, useRef, useState } from "react";
-import DropDown from "./dropDown";
+import { useState } from "react";
 import { months } from "@/app/utils/constants";
 import { getLastFiveYears } from "@/app/utils/common";
 import { useRouter } from "next/navigation";
 
-const SearchSection = ({ customCss, selectedMonth, selectedYear }) => {
+const SearchSection = ({
+  customCss,
+  selectedMonth,
+  selectedYear,
+  areaData = [],
+}) => {
   const router = useRouter();
-  const formRef = useRef();
   const [isError, setIsError] = useState(false);
   const [selectedValues, setSelectedValues] = useState({
     year: selectedYear || "",
     month: selectedMonth || "",
   });
-  const [isShowDropDown, setIsShowDropDown] = useState({
-    year: false,
-    month: false,
-  });
-  const showYears = () => {
-    setIsShowDropDown((prevState) => ({
-      ...prevState,
-      year: true,
-      month: false,
-    }));
-  };
-  const showMonths = () => {
-    setIsShowDropDown((prevState) => ({
-      ...prevState,
-      year: false,
-      month: true,
-    }));
-  };
 
-  const selectYear = (year) => {
-    setSelectedValues((prevState) => ({ ...prevState, year: year }));
-    setIsShowDropDown({ year: false, month: false });
-    setIsError(false);
-  };
+  const formattedAreas = areaData
+    ?.map((area) => area.area)
+    .join(", ")
+    .replace(/,([^,]*)$/, " and$1");
 
-  const selectMonth = (month) => {
-    setSelectedValues((prevState) => ({ ...prevState, month: month }));
-    setIsShowDropDown({ year: false, month: false });
-    setIsError(false);
+  const onchange = (e) => {
+    setSelectedValues((prevState) => ({
+      ...prevState,
+      [e.target.name]: e.target.value,
+    }));
   };
 
   const onSubmit = (e) => {
@@ -61,51 +45,46 @@ const SearchSection = ({ customCss, selectedMonth, selectedYear }) => {
     );
   };
 
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (formRef.current && !formRef.current.contains(event.target)) {
-        setIsShowDropDown({ year: false, month: false });
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
-
   return (
     <div className={`${style.searchSection} ${customCss ? customCss : ""}`}>
       <p className={style.message}>
-        Yahan Aap Month Aur Year Select Karke Gali, Desawar, Ghaziabad Aur
-        Faridabad Ka Combined Chart Dekh Sakte Hai.
+        Yahan Aap Month Aur Year Select karke {formattedAreas} Ka Combined Chart
+        Dekh Sakte Hai.
       </p>
-      <form ref={formRef} onSubmit={onSubmit}>
+      <form onSubmit={onSubmit}>
         <div className={style.dropDownSec}>
-          <button type="button" id="year" onClick={showYears}>
-            {selectedValues.year !== "" ? selectedValues.year : "Year"}
-          </button>
-          <DropDown
-            isShow={isShowDropDown.year}
-            itemList={getLastFiveYears()}
-            fun={selectYear}
-            selected={selectedValues.year}
-          />
+          <select
+            id="year"
+            onChange={onchange}
+            name="year"
+            value={selectedValues.year}
+          >
+            {getLastFiveYears().map((item) => (
+              <option value={item} key={item}>
+                {item}
+              </option>
+            ))}
+          </select>
         </div>
         <div className={style.dropDownSec}>
-          <button type="button" id="month" onClick={showMonths}>
-            {selectedValues.month !== "" ? selectedValues.month : "Month"}
-          </button>
-          <DropDown
-            isShow={isShowDropDown.month}
-            itemList={months}
-            fun={selectMonth}
-            selected={selectedValues.month}
-          />
+          <select
+            id="month"
+            onChange={onchange}
+            name="month"
+            value={selectedValues.month}
+          >
+            {months.map((item) => (
+              <option value={item} key={item}>
+                {item}
+              </option>
+            ))}
+          </select>
         </div>
-        <button id="search" type="submit">
-          <SearchIcon />
-        </button>
+        <div className={style.dropDownSec}>
+          <button id="search" type="submit">
+            Go
+          </button>
+        </div>
       </form>
       {isError && (
         <div className={style.error}>Please select year and month</div>

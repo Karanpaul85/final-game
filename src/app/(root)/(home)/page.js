@@ -5,20 +5,41 @@ import axios from "axios";
 import { isEmpty } from "lodash";
 import Announcement from "@/app/components/announcement";
 import { currentDate } from "@/app/utils/common";
+import TableSection from "@/app/components/tableSection";
 
 export default async function Home() {
-  const { day } = currentDate();
+  const { day, month, year } = currentDate();
   let winnerData = null;
   let contentData = null;
+  let allAreas = [];
+  let monthData = null;
+
   const API_BASE_URL =
     process.env.NODE_ENV === "development"
       ? process.env.LOCAL_URL // Local API during development
       : process.env.PROD_URL; // Production API
   try {
+    const monthResult = await axios.get(`${API_BASE_URL}/api/monthData`, {
+      params: {
+        month: month,
+        year: year,
+      },
+    });
+
+    monthResult?.data?.message === "successfully"
+      ? (monthData = monthResult?.data?.data)
+      : (monthData = []);
+
     const result = await axios.get(`${API_BASE_URL}/api/todayResult`, {
       params: { date: day },
     });
     const fetchContent = await axios.get(`${API_BASE_URL}/api/homeContent`);
+
+    const areaResult = await axios.get(`${API_BASE_URL}/api/areas`);
+    if (areaResult.data.message === "successful") {
+      allAreas = areaResult.data?.data?.[0]?.areas || [];
+    }
+
     if (result.data?.message === "successfully") {
       winnerData = result.data;
     }
@@ -29,6 +50,14 @@ export default async function Home() {
   } catch (error) {
     console.error("Error fetching winner data:", error);
   }
+
+  const uniqueAreas = Array.from(
+    new Map(
+      monthData.flatMap((entry) =>
+        entry.results.map(({ area, areaId }) => [areaId, { area, areaId }])
+      )
+    ).values()
+  );
 
   const hasLuckyWinner =
     !isEmpty(winnerData.data) &&
@@ -45,7 +74,14 @@ export default async function Home() {
         {contentData?.footerContent && (
           <ContentSection data={contentData?.footerContent} />
         )}
-        <SearchSection />
+        {monthData.length > 0 && (
+          <TableSection data={monthData} areaData={uniqueAreas} />
+        )}
+        <SearchSection
+          selectedMonth={month}
+          selectedYear={year}
+          areaData={allAreas}
+        />
       </main>
     </div>
   );

@@ -10,36 +10,41 @@
 .message{
     margin-bottom: 16px;
     text-align: center;
+    text-transform: capitalize;
 }
 
-.searchSection form{
-    border: 1px solid var(--lightGrey);
-    border-radius: 8px;
+.searchSection form{    
     display: flex;
     align-items: center;
-    padding: 0;
-    background: var(--white);
+    flex-wrap: wrap;
+    padding: 0;    
+    gap: 8px;
+    width: 80%;
 }
-.searchSection form button{
+.searchSection form select{
     background: none;
     border: 0;
-    min-width: 200px;
+    width: 100%;
     padding: 16px;
     font-size: 18px;
     text-align: left;
-    border-right: 1px solid var(--lightGrey);
     cursor: pointer;
     position: relative;
     text-transform: capitalize;
+    background: var(--white);
 }
 .searchSection form button[type="submit"]{
-    width: auto;
-    min-width: auto;
+    width: 100%;    
     border: none;
+    background: var(--maroon);
+    color: var(--white);
+    padding: 16px;
+    font-size: 18px;
+    cursor: pointer;
 }
 .dropDownSec{
     position: relative;
-    width: 100%;
+    width: 30%;
 }
 .error{
     font-size: 12px;
@@ -51,12 +56,7 @@
 }
 
 @media(max-width:1024px){
-    .searchSection form button{
-        min-width: 150px;
-    }
-}
-@media(max-width:420px){
-    .searchSection form button{
-        min-width: 130px;
+    .dropDownSec{
+        width: 100%;
     }
 }

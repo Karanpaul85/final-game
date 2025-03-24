@@ -10,8 +10,9 @@ import { months } from "@/app/utils/constants";
 export default async function Search({ params }) {
   const pageSlugs = params?.slugs;
 
-  let monthData = null;
+  let monthData = [];
   let contentData = null;
+  let allAreas = [];
 
   const selectedMonth = pageSlugs[0];
   const selectedYear = Number(pageSlugs[1]);
@@ -43,6 +44,11 @@ export default async function Search({ params }) {
     if (fetchContent.data?.success) {
       contentData = fetchContent.data?.data;
     }
+
+    const areaResult = await axios.get(`${API_BASE_URL}/api/areas`);
+    if (areaResult.data.message === "successful") {
+      allAreas = areaResult.data?.data?.[0]?.areas || [];
+    }
   } catch (error) {
     console.error("Error fetching winner data:", error);
   }
@@ -66,21 +72,15 @@ export default async function Search({ params }) {
           <ContentSection data={contentData?.topContent} />
         )}
 
-        {selectedYear === currentYear &&
-        selectedMonthIndex <= currentMonthIndex ? (
-          monthData.length > 0 ? (
-            <TableSection data={monthData} areaData={uniqueAreas} />
-          ) : (
-            <p className={style.notFound}>
-              Sorry we can not find any result for this month
-            </p>
-          )
-        ) : (
-          <p className={style.notFound}>Please wait for next month quiz</p>
-        )}
+        <TableSection
+          data={monthData}
+          areaData={uniqueAreas.length > 0 ? uniqueAreas : allAreas}
+        />
+
         <SearchSection
           selectedMonth={pageSlugs[0]}
           selectedYear={pageSlugs[1]}
+          areaData={allAreas}
         />
 
         {contentData?.footerContent && (
