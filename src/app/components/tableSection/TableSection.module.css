@@ -1,6 +1,5 @@
 .tableSection{
     width: 100%;
-    overflow: auto;
 }
 .customers {
     font-family: Arial, Helvetica, sans-serif;
@@ -24,5 +23,4 @@
     text-align: left;
     background-color: var(--lightMaroon);
     color: var(--white);
-    min-width: 100px;
   }
