@@ -76,6 +76,10 @@ const SearchSection = ({ customCss, selectedMonth, selectedYear }) => {
 
   return (
     <div className={`${style.searchSection} ${customCss ? customCss : ""}`}>
+      <p className={style.message}>
+        Yahan Aap Month Aur Year Select Karke Gali, Desawar, Ghaziabad Aur
+        Faridabad Ka Combined Chart Dekh Sakte Hai.
+      </p>
       <form ref={formRef} onSubmit={onSubmit}>
         <div className={style.dropDownSec}>
           <button type="button" id="year" onClick={showYears}>

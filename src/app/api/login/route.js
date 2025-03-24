@@ -47,6 +47,13 @@ export async function POST(req) {
         }
       );
     }
+    return new Response(
+      JSON.stringify({ message: "Sorry there is no account with this email" }),
+      {
+        status: 401,
+        headers: { "Content-Type": "application/json" },
+      }
+    );
   } catch (error) {
     return new Response(JSON.stringify({ error: "Internal Server Error" }), {
       status: 500,

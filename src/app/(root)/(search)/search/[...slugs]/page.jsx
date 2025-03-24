@@ -65,10 +65,7 @@ export default async function Search({ params }) {
         {contentData?.topContent && (
           <ContentSection data={contentData?.topContent} />
         )}
-        <SearchSection
-          selectedMonth={pageSlugs[0]}
-          selectedYear={pageSlugs[1]}
-        />
+
         {selectedYear === currentYear &&
         selectedMonthIndex <= currentMonthIndex ? (
           monthData.length > 0 ? (
@@ -81,6 +78,10 @@ export default async function Search({ params }) {
         ) : (
           <p className={style.notFound}>Please wait for next month quiz</p>
         )}
+        <SearchSection
+          selectedMonth={pageSlugs[0]}
+          selectedYear={pageSlugs[1]}
+        />
 
         {contentData?.footerContent && (
           <ContentSection data={contentData?.footerContent} />

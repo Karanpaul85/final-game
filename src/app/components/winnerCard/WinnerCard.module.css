@@ -31,6 +31,8 @@
 }
 @media(max-width:640px){
     .card{
-        width: 100%;
+        width: 50%;
+        border-radius: 0;
+        border: 1px solid var(--lightMaroon);
     }
 }

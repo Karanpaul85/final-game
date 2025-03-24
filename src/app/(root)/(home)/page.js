@@ -40,11 +40,12 @@ export default async function Home() {
         {contentData?.topContent && (
           <ContentSection data={contentData?.topContent} />
         )}
-        <SearchSection />
+
         {hasLuckyWinner ? <WinnerList data={winnerData} /> : <Announcement />}
         {contentData?.footerContent && (
           <ContentSection data={contentData?.footerContent} />
         )}
+        <SearchSection />
       </main>
     </div>
   );
