@@ -9,6 +9,9 @@ const SearchContent = () => {
   const [isEdit, setIsEdit] = useState(false);
   const [isFetched, setIsFetched] = useState(false); // Prevent infinite loop
   const [content, setContent] = useState({
+    title: "",
+    description: "",
+    keywords: "",
     topContent: "",
     footerContent: "",
   });
@@ -53,6 +56,9 @@ const SearchContent = () => {
             ...prev,
             topContent: res.data?.data?.topContent || "",
             footerContent: res.data?.data?.footerContent || "",
+            title: res.data?.data?.pageTitle || "",
+            description: res.data?.data?.pageDescription || "",
+            keywords: res.data?.data?.pageKeywords || "",
           }));
         }
       } catch (error) {
@@ -77,6 +83,36 @@ const SearchContent = () => {
       {isLoader && <Loader position="absolute" />}
       <form className={style.homeContent} onSubmit={onSubmit}>
         <div className={style.heading}>Search Top Content</div>
+        <div className={style.textAreaSection}>
+          <input
+            type="text"
+            placeholder="Please Enter Home Page Title"
+            name="title"
+            onChange={onChange}
+            value={content.title}
+            disabled={!isEdit}
+          />
+        </div>
+        <div className={style.textAreaSection}>
+          <input
+            type="text"
+            placeholder="Please Enter Home Page Description"
+            name="description"
+            onChange={onChange}
+            value={content.description}
+            disabled={!isEdit}
+          />
+        </div>
+        <div className={style.textAreaSection}>
+          <input
+            type="text"
+            placeholder="Please Enter Home Page keywords"
+            name="keywords"
+            onChange={onChange}
+            value={content.keywords}
+            disabled={!isEdit}
+          />
+        </div>
         <div className={style.textAreaSection}>
           <textarea
             name="topContent"

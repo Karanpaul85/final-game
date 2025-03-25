@@ -3,13 +3,38 @@ import style from "./Search.module.css";
 import ContentSection from "@/app/components/contentSection";
 import axios from "axios";
 
+const API_BASE_URL =
+  process.env.NODE_ENV === "development"
+    ? process.env.LOCAL_URL // Local API during development
+    : process.env.PROD_URL; // Production API
+
+export async function generateMetadata() {
+  const fetchContent = await axios.get(`${API_BASE_URL}/api/searchContent`);
+  const { pageTitle, pageDescription, pageKeywords } = fetchContent?.data?.data;
+  return {
+    title: pageTitle,
+    description: pageDescription,
+    keywords: pageKeywords,
+    openGraph: {
+      title: pageTitle,
+      description: pageDescription,
+      url: "https://final-game-two.vercel.app/",
+      siteName: "Lucky Draw",
+      images: [
+        {
+          url: "https://final-game-two.vercel.app/_next/image?url=%2Fassets%2Flogo.png&w=256&q=75",
+          width: 400,
+          height: 400,
+        },
+      ],
+      locale: "en_US",
+      type: "website",
+    },
+  };
+}
+
 export default async function Search() {
   let contentData = null;
-
-  const API_BASE_URL =
-    process.env.NODE_ENV === "development"
-      ? process.env.LOCAL_URL // Local API during development
-      : process.env.PROD_URL; // Production API
 
   try {
     const fetchContent = await axios.get(`${API_BASE_URL}/api/searchContent`);
@@ -25,6 +50,7 @@ export default async function Search() {
         {contentData?.topContent && (
           <ContentSection data={contentData?.topContent} />
         )}
+
         <SearchSection customCss={style.marginBottom} />
         {contentData?.footerContent && (
           <ContentSection data={contentData?.footerContent} />
