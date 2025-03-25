@@ -22,11 +22,11 @@ export async function generateMetadata() {
     openGraph: {
       title: pageTitle,
       description: pageDescription,
-      url: "https://final-game-two.vercel.app/",
+      url: "https://final-game-two.vercel.app",
       siteName: "Lucky Draw",
       images: [
         {
-          url: "https://final-game-two.vercel.app/_next/image?url=%2Fassets%2Flogo.png&w=256&q=75",
+          url: "https://final-game-two.vercel.app/assets/logo.png",
           width: 400,
           height: 400,
         },
@@ -34,6 +34,7 @@ export async function generateMetadata() {
       locale: "en_US",
       type: "website",
     },
+    metadataBase: new URL("https://final-game-two.vercel.app"),
   };
 }
 

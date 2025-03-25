@@ -18,7 +18,7 @@ export async function generateMetadata() {
     openGraph: {
       title: pageTitle,
       description: pageDescription,
-      url: "https://final-game-two.vercel.app/",
+      url: "https://final-game-two.vercel.app",
       siteName: "Lucky Draw",
       images: [
         {
@@ -30,6 +30,7 @@ export async function generateMetadata() {
       locale: "en_US",
       type: "website",
     },
+    metadataBase: new URL("https://final-game-two.vercel.app"),
   };
 }
 
