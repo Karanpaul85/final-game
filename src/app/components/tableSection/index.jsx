@@ -1,3 +1,4 @@
+"use client";
 import { months } from "@/app/utils/constants";
 import style from "./TableSection.module.css";
 import Link from "next/link";
@@ -35,7 +36,9 @@ const TableSection = ({ data, areaData, selectedMonth, selectedYear }) => {
           {data.length > 0 &&
             data.map((item) => (
               <tr key={item.date}>
-                <td style={{ color: "#f00" }}>{item.date.split("-")[0]}</td>
+                <td style={{ color: "var(--maroon)" }}>
+                  {item.date.split("-")[0]}
+                </td>
                 {areaData.map((area, index) => {
                   if (index > 3) return;
                   const result = item.results.find(

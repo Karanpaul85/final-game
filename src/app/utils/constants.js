@@ -17,4 +17,5 @@ export const adminPages = [
   { url: "homeContent", content: "Home Content" },
   { url: "searchContent", content: "Search Content" },
   { url: "editArea", content: "Edit Area" },
+  { url: "footer", content: "Footer Content" },
 ];

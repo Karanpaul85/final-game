@@ -2,7 +2,7 @@ import style from "./WinnerCard.module.css";
 const WinnerCard = ({ cardData }) => {
   return (
     <div className={style.card}>
-      <h4>{cardData?.area}</h4>
+      <p className={style.heading}>{cardData?.area}</p>
       <p className={style.time}>{cardData?.drawTime}</p>
       <p>
         Lucky Winner :- <span>{cardData?.luckyWinner}</span>

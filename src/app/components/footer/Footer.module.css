@@ -9,3 +9,7 @@
     color: var(--white);
     font-size: 14px;
 }
+.footer p{
+    text-align: center;
+    line-height: 1.5;
+}
