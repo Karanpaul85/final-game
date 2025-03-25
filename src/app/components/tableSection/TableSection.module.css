@@ -36,4 +36,5 @@
     padding: 10px;
     background: var(--lightMaroon);
     color: var(--white);
+    text-transform: capitalize;
   }

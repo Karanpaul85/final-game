@@ -75,7 +75,12 @@ export default async function Home() {
           <ContentSection data={contentData?.footerContent} />
         )}
         {monthData.length > 0 && (
-          <TableSection data={monthData} areaData={uniqueAreas} />
+          <TableSection
+            data={monthData}
+            areaData={uniqueAreas}
+            selectedMonth={month}
+            selectedYear={year}
+          />
         )}
         <SearchSection
           selectedMonth={month}

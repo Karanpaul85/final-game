@@ -75,6 +75,8 @@ export default async function Search({ params }) {
         <TableSection
           data={monthData}
           areaData={uniqueAreas.length > 0 ? uniqueAreas : allAreas}
+          selectedMonth={pageSlugs[0]}
+          selectedYear={pageSlugs[1]}
         />
 
         <SearchSection

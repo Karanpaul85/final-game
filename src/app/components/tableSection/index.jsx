@@ -1,5 +1,23 @@
+import { months } from "@/app/utils/constants";
 import style from "./TableSection.module.css";
-const TableSection = ({ data, areaData }) => {
+import Link from "next/link";
+const TableSection = ({ data, areaData, selectedMonth, selectedYear }) => {
+  const currentMonthIndex = months.findIndex(
+    (month) => month === selectedMonth
+  );
+
+  const nextMonth = `/search/${
+    currentMonthIndex === 11
+      ? months[currentMonthIndex - 11]
+      : months[currentMonthIndex + 1]
+  }/${currentMonthIndex === 11 ? Number(selectedYear) + 1 : selectedYear}`;
+
+  const prevMonth = `/search/${
+    currentMonthIndex === 0
+      ? months[currentMonthIndex + 11]
+      : months[currentMonthIndex - 1]
+  }/${currentMonthIndex === 0 ? Number(selectedYear) - 1 : selectedYear}`;
+
   return (
     <div className={style.tableSection}>
       <table className={style.customers}>
@@ -38,8 +56,22 @@ const TableSection = ({ data, areaData }) => {
         </tbody>
       </table>
       <div className={style.prevNextMonth}>
-        <a href="">Prev</a>
-        <a href="">Next</a>
+        <Link href={prevMonth}>{`${
+          currentMonthIndex === 0
+            ? months[currentMonthIndex + 11]
+            : months[currentMonthIndex - 1]
+        } ${
+          currentMonthIndex === 0 ? Number(selectedYear) - 1 : selectedYear
+        }`}</Link>
+        <Link href={nextMonth}>
+          {`${
+            currentMonthIndex === 11
+              ? months[currentMonthIndex - 11]
+              : months[currentMonthIndex + 1]
+          } 
+          ${currentMonthIndex === 11 ? Number(selectedYear) + 1 : selectedYear}
+          `}
+        </Link>
       </div>
     </div>
   );
