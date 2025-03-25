@@ -26,7 +26,7 @@ export async function generateMetadata() {
       siteName: "Lucky Draw",
       images: [
         {
-          url: "https://final-game-two.vercel.app/assets/logo.png",
+          url: "https://final-game-two.vercel.app/assets/king1.png",
           width: 400,
           height: 400,
         },

@@ -4,10 +4,10 @@ const WinnerCard = ({ cardData }) => {
     <div className={style.card}>
       <p className={style.heading}>{cardData?.area}</p>
       <p className={style.time}>{cardData?.drawTime}</p>
-      <p>
+      <p className={style.winner}>
         Lucky Winner :- <span>{cardData?.luckyWinner}</span>
       </p>
-      <p>
+      <p className={style.winner}>
         Total Entries :- <span>{cardData?.totalEntries}</span>
       </p>
     </div>
