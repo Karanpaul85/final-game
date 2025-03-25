@@ -24,20 +24,28 @@ export async function GET(req) {
 
 export async function POST(req) {
   try {
-    await mongoose.connect(connectionStr, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
+    if (!mongoose.connection.readyState) {
+      await mongoose.connect(connectionStr, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+      });
+    }
 
-    const { topContent, footerContent } = await req.json();
+    const { title, description, keywords, topContent, footerContent } =
+      await req.json();
 
     // Find existing document
     let existingData = await HomeDataContent.findOne();
 
     if (existingData) {
       // Update existing document
+      existingData.pageTitle = title || existingData.pageTitle;
+      existingData.pageDescription =
+        description || existingData.pageDescription;
+      existingData.pageKeywords = keywords || existingData.pageKeywords;
       existingData.topContent = topContent || existingData.topContent;
       existingData.footerContent = footerContent || existingData.footerContent;
+
       const updated = await existingData.save();
 
       return new Response(
@@ -53,7 +61,14 @@ export async function POST(req) {
       );
     } else {
       // Create new document
-      const newData = new HomeDataContent({ topContent, footerContent });
+      const newData = new HomeDataContent({
+        pageTitle: title ?? "Default title",
+        pageDescription: description ?? "Default description",
+        pageKeywords: keywords ?? "Default keywords",
+        topContent: topContent ?? "",
+        footerContent: footerContent ?? "",
+      });
+
       const savedData = await newData.save();
 
       return new Response(

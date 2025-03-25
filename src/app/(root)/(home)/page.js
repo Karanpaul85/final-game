@@ -7,6 +7,36 @@ import Announcement from "@/app/components/announcement";
 import { currentDate } from "@/app/utils/common";
 import TableSection from "@/app/components/tableSection";
 
+const API_BASE_URL =
+  process.env.NODE_ENV === "development"
+    ? process.env.LOCAL_URL // Local API during development
+    : process.env.PROD_URL; // Production API
+
+export async function generateMetadata() {
+  const fetchContent = await axios.get(`${API_BASE_URL}/api/homeContent`);
+  const { pageTitle, pageDescription, pageKeywords } = fetchContent?.data?.data;
+  return {
+    title: pageTitle,
+    description: pageDescription,
+    keywords: pageKeywords,
+    openGraph: {
+      title: pageTitle,
+      description: pageDescription,
+      url: "https://final-game-two.vercel.app/",
+      siteName: "Lucky Draw",
+      images: [
+        {
+          url: "https://final-game-two.vercel.app/_next/image?url=%2Fassets%2Flogo.png&w=256&q=75",
+          width: 400,
+          height: 400,
+        },
+      ],
+      locale: "en_US",
+      type: "website",
+    },
+  };
+}
+
 export default async function Home() {
   const { day, month, year } = currentDate();
   let winnerData = null;
@@ -14,10 +44,6 @@ export default async function Home() {
   let allAreas = [];
   let monthData = null;
 
-  const API_BASE_URL =
-    process.env.NODE_ENV === "development"
-      ? process.env.LOCAL_URL // Local API during development
-      : process.env.PROD_URL; // Production API
   try {
     const monthResult = await axios.get(`${API_BASE_URL}/api/monthData`, {
       params: {
