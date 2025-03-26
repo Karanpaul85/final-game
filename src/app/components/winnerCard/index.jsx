@@ -1,9 +1,9 @@
 import style from "./WinnerCard.module.css";
-const WinnerCard = ({ cardData }) => {
+const WinnerCard = ({ cardData, date }) => {
   return (
     <div className={style.card}>
       <p className={style.heading}>{cardData?.area}</p>
-      <p className={style.time}>{cardData?.drawTime}</p>
+      <p className={style.time}>{`${date} - ${cardData?.drawTime}`}</p>
       <p className={style.winner}>
         Lucky Winner :- <span>{cardData?.luckyWinner}</span>
       </p>

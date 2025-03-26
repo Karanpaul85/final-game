@@ -5,19 +5,8 @@ import mongoose from "mongoose";
 export async function GET(req) {
   try {
     await mongoose.connect(connectionStr);
-    const url = new URL(req.url);
-    const date = url.searchParams.get("date");
 
-    if (!date) {
-      return new Response(
-        JSON.stringify({ message: "successfully", data: {} }),
-        {
-          status: 200,
-          headers: { "Content-Type": "application/json" },
-        }
-      );
-    }
-    const results = await Result.findOne({ date });
+    const results = await Result.findOne().sort({ _id: -1 });
     if (results) {
       return new Response(
         JSON.stringify({ message: "successfully", data: results }),

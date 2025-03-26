@@ -2,8 +2,6 @@ import WinnerList from "../../components/winnerList";
 import SearchSection from "@/app/components/search";
 import ContentSection from "@/app/components/contentSection";
 import axios from "axios";
-import { isEmpty } from "lodash";
-import Announcement from "@/app/components/announcement";
 import { currentDate } from "@/app/utils/common";
 import TableSection from "@/app/components/tableSection";
 
@@ -39,7 +37,7 @@ export async function generateMetadata() {
 }
 
 export default async function Home() {
-  const { day, month, year } = currentDate();
+  const { month, year } = currentDate();
   let winnerData = null;
   let contentData = null;
   let allAreas = [];
@@ -57,9 +55,8 @@ export default async function Home() {
       ? (monthData = monthResult?.data?.data)
       : (monthData = []);
 
-    const result = await axios.get(`${API_BASE_URL}/api/todayResult`, {
-      params: { date: day },
-    });
+    const result = await axios.get(`${API_BASE_URL}/api/todayResult`);
+
     const fetchContent = await axios.get(`${API_BASE_URL}/api/homeContent`);
 
     const areaResult = await axios.get(`${API_BASE_URL}/api/areas`);
@@ -86,10 +83,6 @@ export default async function Home() {
     ).values()
   );
 
-  const hasLuckyWinner =
-    !isEmpty(winnerData.data) &&
-    winnerData?.data?.results.some((item) => item.luckyWinner.trim() !== "");
-
   return (
     <div className="wrapper">
       <main>
@@ -97,7 +90,8 @@ export default async function Home() {
           <ContentSection data={contentData?.topContent} />
         )}
 
-        {hasLuckyWinner ? <WinnerList data={winnerData} /> : <Announcement />}
+        <WinnerList data={winnerData} />
+
         {contentData?.footerContent && (
           <ContentSection data={contentData?.footerContent} />
         )}
