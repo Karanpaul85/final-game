@@ -58,6 +58,7 @@ const SearchSection = ({
             onChange={onchange}
             name="year"
             value={selectedValues.year}
+            aria-label="Select Year"
           >
             {getLastFiveYears().map((item) => (
               <option value={item} key={item}>
@@ -72,6 +73,7 @@ const SearchSection = ({
             onChange={onchange}
             name="month"
             value={selectedValues.month}
+            aria-label="Select Month"
           >
             {months.map((item) => (
               <option value={item} key={item}>
