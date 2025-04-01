@@ -10,15 +10,6 @@ const Admin = ({ params }) => {
   const slugs = params?.slugs;
   const { isMobile } = getRequestInfo();
 
-  // Get cookies on the server side
-  const cookieStore = cookies();
-  const isUserLoggedIn = cookieStore.get("isUserLoggedIn")?.value;
-
-  // Redirect if not logged in
-  if (!isUserLoggedIn) {
-    redirect("/login");
-  }
-
   return (
     <div className="wrapper">
       <main className={style.adminSection}>

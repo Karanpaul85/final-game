@@ -5,7 +5,6 @@ import Cryptr from "cryptr";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 import axios from "axios";
-import { getCookie, setCookie } from "@/app/utils/common";
 import { useRouter } from "next/navigation";
 
 const cryptr = new Cryptr(process.env.NEXT_PUBLIC_CRYPTR_SECRET);
@@ -54,7 +53,6 @@ const Login = () => {
         });
 
         if (res.data.message === "successful") {
-          setCookie("isUserLoggedIn", true, 1);
           router.push("/dashboard/admin");
         } else {
           throw new Error("Login failed");
@@ -69,12 +67,6 @@ const Login = () => {
       }
     }, 0);
   };
-
-  useEffect(() => {
-    if (getCookie("isUserLoggedIn")) {
-      router.replace("/dashboard/admin");
-    }
-  }, []);
 
   return (
     <div className="wrapper">

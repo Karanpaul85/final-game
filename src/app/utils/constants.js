@@ -1,3 +1,4 @@
+export const authCookie = "authCookie";
 export const months = [
   "january",
   "february",
