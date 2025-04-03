@@ -12,6 +12,8 @@ const cryptr = new Cryptr(process.env.NEXT_PUBLIC_CRYPTR_SECRET);
 const Login = () => {
   const router = useRouter();
 
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
   const [isShowPassword, setIsShowPassword] = useState(false);
@@ -20,6 +22,18 @@ const Login = () => {
     email: "",
     password: "",
   });
+
+  useEffect(() => {
+    const getLoginResult = async () => {
+      const res = await axios.get("/api/login");
+      if (res?.data?.isLoggedIn) {
+        router.push("/dashboard/admin");
+      } else {
+        setIsLoggedIn(true);
+      }
+    };
+    getLoginResult();
+  }, []);
 
   const onChange = (e) => {
     setInputValues((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -67,6 +81,10 @@ const Login = () => {
       }
     }, 0);
   };
+
+  if (!isLoggedIn) {
+    return "loading...";
+  }
 
   return (
     <div className="wrapper">

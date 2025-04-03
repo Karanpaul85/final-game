@@ -14,9 +14,8 @@ const cryptr = new Cryptr(secret);
 export async function GET(req) {
   const cookieStore = cookies();
   const userAuthCookie = cookieStore.get(authCookie);
-  const userDetails = userAuthCookie.value;
 
-  if (userDetails === "") {
+  if (!userAuthCookie) {
     return new Response(JSON.stringify({ isLoggedIn: false }), {
       status: 200,
       headers: { "Content-Type": "application/json" },

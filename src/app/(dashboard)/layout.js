@@ -1,6 +1,7 @@
 import axios from "axios";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import { authCookie } from "../utils/constants";
 
 export const metadata = {
   title: "Dashboard",
@@ -13,16 +14,16 @@ const API_BASE_URL =
 
 export default async function DashboardRootLayout({ children }) {
   const cookieStore = cookies();
-  const authCookie = cookieStore.get("authCookie")?.value || "";
-  const res = await axios.get(`${API_BASE_URL}/api/login`, {
-    headers: {
-      Cookie: `authCookie=${authCookie}`,
-    },
-  });
+  const authCookies = cookieStore.get(authCookie)?.value || "";
+  const res =
+    authCookies &&
+    (await axios.get(`${API_BASE_URL}/api/login`, {
+      headers: {
+        Cookie: `authCookie=${authCookies}`,
+      },
+    }));
   if (!res?.data?.isLoggedIn) {
     redirect("/login");
-  } else {
-    redirect("/dashboard/admin");
   }
   return <>{children}</>;
 }
