@@ -12,7 +12,7 @@ export async function POST(req) {
     const { email, password } = body;
     const decryptEmail = cryptr.decrypt(email);
     const decryptPassword = cryptr.decrypt(password);
-    if (decryptEmail === process.env.ADMIN_EMAIL) {
+    if (process.env.ADMIN_EMAIL.includes(decryptEmail)) {
       const isUserExist = await User.findOne({ email: decryptEmail });
       if (isUserExist) {
         if (decryptPassword === cryptr.decrypt(isUserExist.password)) {
