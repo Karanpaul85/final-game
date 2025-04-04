@@ -25,13 +25,25 @@ const Login = () => {
 
   useEffect(() => {
     const getLoginResult = async () => {
-      const res = await axios.get("/api/login");
-      if (res?.data?.isLoggedIn) {
-        router.push("/dashboard/admin");
-      } else {
-        setIsLoggedIn(true);
+      try {
+        const res = await axios.get("/api/login");
+
+        if (res?.data?.isLoggedIn) {
+          router.push("/dashboard/admin");
+        } else {
+          setIsLoggedIn(true); // Show login UI
+        }
+      } catch (error) {
+        if (error.response?.status === 401) {
+          console.warn("User is unauthorized");
+          setIsLoggedIn(true); // Still show login UI
+        } else {
+          console.error("Login check failed:", error);
+          // Optionally show a generic error
+        }
       }
     };
+
     getLoginResult();
   }, []);
 
